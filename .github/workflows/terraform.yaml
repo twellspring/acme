@@ -18,8 +18,8 @@ on:
         required: true
 
 env:
-  backend_config: "terraform/tfvars/${{inputs.application}}-${{inputs.environment}}-backend.tfvars"
-  tf_config: "terraform/tfvars/${{inputs.application}}-${{inputs.environment}}.tfvars"
+  backend_config: "tfvars/${{inputs.application}}-${{inputs.environment}}-backend.tfvars"
+  tf_config: "tfvars/${{inputs.application}}-${{inputs.environment}}.tfvars"
 
 jobs:
   terraform:
@@ -28,13 +28,14 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: terraform
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
 
       - name: Terraform Init
         run: terraform init -backend-config=${{env.backend_config}}
