@@ -58,5 +58,5 @@ jobs:
         run: terraform plan -no-color -var-file=${{env.tf_config}}
 
       - name: Terraform Apply
-        if: "${{ inputs.apply == 'true' || }}"
+        if: "${{ inputs.apply == 'true' || false }}"
         run: terraform apply -auto-approve -no-color -var-file=${{env.tf_config}}
