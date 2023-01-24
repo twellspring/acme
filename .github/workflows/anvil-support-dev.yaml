@@ -12,6 +12,12 @@ on:
       - synchronize
 
   workflow_dispatch:
+    inputs:
+      apply:
+        description: Run Terraform Apply
+        type: boolean
+        required: false
+        default: false
 
 env:
   application: anvil-support
@@ -23,7 +29,7 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     with:
       application: anvil-support
-      apply: ${{ github.event_name != 'pull_request' }}
+      apply: ${{ github.event_name == 'pull_request' && false || inputs.deploy || true }}
       aws_region: us-west-2
       environment: dev
     secrets: inherit
