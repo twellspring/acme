@@ -18,8 +18,8 @@ on:
         required: true
 
 env:
-  backend_config: "tfvars/${{inputs.application}}-${{inputs.environment}}-backend.tfvars"
-  tf_config: "tfvars/${{inputs.application}}-${{inputs.environment}}.tfvars"
+  backend_config: "terraform/tfvars/${{inputs.application}}-${{inputs.environment}}-backend.tfvars"
+  tf_config: "terraform/tfvars/${{inputs.application}}-${{inputs.environment}}.tfvars"
 
 jobs:
   terraform:
