@@ -9,9 +9,12 @@ on:
         required: true
       apply:
         description: "Run Terraform apply"
-        type: boolean
+        type: choice
         required: false
-        default: false
+        default: "false"
+        options:
+          - "false"
+          - "true"
       aws_region:
         description: "AWS Region"
         type: string
@@ -58,5 +61,5 @@ jobs:
         run: terraform plan -no-color -var-file=${{env.tf_config}}
 
       - name: Terraform Apply
-        if: "${{ inputs.apply == 'true' }}"
+        if: "${{ inputs.apply == 'true' || }}"
         run: terraform apply -auto-approve -no-color -var-file=${{env.tf_config}}
