@@ -15,8 +15,13 @@ on:
     inputs:
       apply:
         description: Run Terraform Apply
-        required: true
+        description: "Run Terraform apply"
+        type: choice
+        required: false
         default: false
+        options:
+          - false
+          - true
 
 env:
   application: anvil-support
