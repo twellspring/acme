@@ -9,12 +9,9 @@ on:
         required: true
       apply:
         description: "Run Terraform apply"
-        type: choice
+        type: string
         required: false
         default: "false"
-        options:
-          - "false"
-          - "true"
       aws_region:
         description: "AWS Region"
         type: string
