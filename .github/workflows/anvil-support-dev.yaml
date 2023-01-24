@@ -15,9 +15,12 @@ on:
     inputs:
       apply:
         description: Run Terraform Apply
-        type: boolean
+        type: choice
         required: false
-        default: false
+        default: "false"
+        options:
+          - "true"
+          - "false"
 
 env:
   application: anvil-support
@@ -29,7 +32,7 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     with:
       application: anvil-support
-      apply: ${{ github.events.inputs.apply == 'true' }}
+      apply: ${{ github.events.inputs.apply }}
       aws_region: us-west-2
       environment: dev
     secrets: inherit
