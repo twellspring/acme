@@ -12,6 +12,11 @@ on:
         type: boolean
         required: false
         default: false
+      aws_region:
+        description: "AWS Region"
+        type: string
+        required: false
+        default: us-west-2
       environment:
         description: "Application Environment"
         type: string
@@ -36,6 +41,8 @@ jobs:
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{inputs.aws_region}}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
