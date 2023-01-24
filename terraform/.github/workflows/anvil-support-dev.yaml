@@ -1,0 +1,33 @@
+name: Terraform
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Run Terraform Apply
+        required: true
+        default: false
+
+env:
+  application: anvil-support
+  environment: dev
+
+jobs:
+  terraform:
+    name: Terraform
+    uses: ./.github/workflows/terraform.yaml
+    with:
+      application: anvil-support
+      environment: dev
+      apply: ${{ github.event_name == 'pull_request' && false || inputs.apply || true }}
+    secrets: inherit
