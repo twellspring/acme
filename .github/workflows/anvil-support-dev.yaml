@@ -29,7 +29,7 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     with:
       application: anvil-support
-      apply: ${{ github.event_name == 'pull_request' && false || inputs.deploy || true }}
+      apply: ${{ inputs.deploy || github.event_name != 'pull_request' }}
       aws_region: us-west-2
       environment: dev
     secrets: inherit
