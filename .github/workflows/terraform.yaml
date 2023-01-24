@@ -18,14 +18,13 @@ on:
         required: true
 
 env:
-  backend_config: "tfvars/${{application}}-${{environment}}-backend.tfvars"
-  tf_config: "tfvars/${{application}}-${{environment}}.tfvars"
+  backend_config: "tfvars/${{inputs.application}}-${{inputs.environment}}-backend.tfvars"
+  tf_config: "tfvars/${{inputs.application}}-${{inputs.environment}}.tfvars"
 
 jobs:
   terraform:
     name: "Terraform"
     runs-on: ubuntu-latest
-    environment: production
     defaults:
       run:
         shell: bash
