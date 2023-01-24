@@ -1,4 +1,4 @@
-name: Terraform
+name: deploy-anvil-support-dev
 
 on:
   push:
