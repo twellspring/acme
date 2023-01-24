@@ -1,0 +1,35 @@
+name: deploy-anvil-support-dev
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Run Terraform Apply
+        type: boolean
+        required: false
+        default: false
+
+env:
+  application: anvil-support
+  environment: dev
+
+jobs:
+  terraform:
+    name: Terraform
+    uses: ./.github/workflows/terraform.yaml
+    with:
+      application: anvil-support
+      apply: ${{ github.event_name == 'push' && true || inputs.deploy || false}}
+      aws_region: us-west-2
+      environment: dev
+    secrets: inherit
