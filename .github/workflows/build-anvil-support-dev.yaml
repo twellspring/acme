@@ -1,0 +1,23 @@
+name: build-anvil-support-dev
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - src/**
+      - Dockerfile
+  workflow_dispatch:
+
+env:
+  application: anvil-support
+  environment: dev
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/build.yaml
+    with:
+      application: anvil-support
+      aws_region: us-west-2
+    secrets: inherit
