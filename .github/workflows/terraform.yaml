@@ -65,6 +65,6 @@ jobs:
         if: "${{ inputs.apply == 'true'}}"
         run: terraform apply -auto-approve -no-color -var-file=${{env.tf_config}}
         env:
-          TF_VAR_TLS_CERTIFICATE: ${{ secrets.TF_VAR_TLS_CERTIFICATE }}
-          TF_VAR_TLS_CHAIN: ${{ secrets.TF_VAR_TLS_CHAIN }}
-          TF_VAR_TLS_KEY: ${{ secrets.TF_VAR_TLS_KEY }}
+          TF_VAR_tls_certificate: ${{ secrets.TF_VAR_TLS_CERTIFICATE }}
+          TF_VAR_tls_chain: ${{ secrets.TF_VAR_TLS_CHAIN }}
+          TF_VAR_tls_key: ${{ secrets.TF_VAR_TLS_KEY }}
