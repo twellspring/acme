@@ -1,6 +1,6 @@
 
 resource "aws_security_group" "ecs" {
-  name        = local.prefix
+  name        = "${local.prefix}-ecs"
   description = "ECS security group"
   vpc_id      = module.vpc.vpc_id
 
@@ -30,7 +30,7 @@ resource "aws_security_group_rule" "ecs_egress" {
 
 
 resource "aws_security_group" "alb" {
-  name        = local.prefix
+  name        = "${local.prefix}-alb"
   description = "ALB Security Group"
   vpc_id      = module.vpc.vpc_id
 

@@ -15,7 +15,8 @@ on:
     inputs:
       apply:
         description: Run Terraform Apply
-        required: true
+        type: boolean
+        required: false
         default: false
 
 env:
@@ -28,6 +29,7 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     with:
       application: anvil-support
+      apply: ${{ inputs.deploy || github.event_name != 'pull_request' }}
+      aws_region: us-west-2
       environment: dev
-      apply: ${{ github.event_name == 'pull_request' && false || inputs.apply || true }}
     secrets: inherit
