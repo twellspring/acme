@@ -8,6 +8,11 @@ variable "aws_region" {
   default = "us-west-2"
 }
 
+variable "container_port" {
+  type        = number
+  description = "port used by containerized application"
+}
+
 variable "ecs_memory" {
   type        = number
   description = "Memory for ECS"

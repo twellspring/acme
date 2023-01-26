@@ -41,19 +41,10 @@ resource "aws_ecs_task_definition" "definition" {
       "networkMode": "awsvpc",
       "portMappings": [
         {
-          "containerPort": 3000,
-          "hostPort": 3000
+          "containerPort": ${var.container_port},
+          "hostPort": ${var.container_port}
         }
       ],
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-            "awslogs-create-group": "true",
-            "awslogs-group": "${local.prefix}_logs",
-            "awslogs-region": "us-west-2",
-            "awslogs-stream-application": "${var.application}"
-        }
-      },
       "environment": []
     }
   ]

@@ -7,15 +7,15 @@ resource "aws_lb" "lb" {
 }
 
 resource "aws_lb_target_group" "tg" {
-  name        = var.application
-  port        = "3000"
+  name        = local.prefix
+  port        = var.container_port
   protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
   target_type = "ip"
   health_check {
     interval            = 30
-    port                = 3000
-    path                = "/aws"
+    port                = var.container_port
+    path                = "/"
     protocol            = "HTTP"
     timeout             = 28
     unhealthy_threshold = 10
@@ -54,4 +54,9 @@ resource "aws_acm_certificate" "cert" {
   private_key       = var.tls_key
   certificate_body  = var.tls_certificate
   certificate_chain = var.tls_chain
+  lifecycle {
+    ignore_changes = [
+      options["certificate_transparency_logging_preference "]
+    ]
+  }
 }
