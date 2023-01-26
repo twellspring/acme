@@ -23,7 +23,6 @@ resource "aws_ecs_cluster" "cluster" {
   }
 }
 
-
 resource "aws_ecs_task_definition" "definition" {
   family                   = local.prefix
   requires_compatibilities = ["FARGATE"]
@@ -34,7 +33,7 @@ resource "aws_ecs_task_definition" "definition" {
   container_definitions    = <<DEFINITION
   [
     {
-      "name": "${local.prefix}",
+      "name": "${var.application}",
       "image": "${aws_ecr_repository.repo.repository_url}:latest",
       "memory":${var.ecs_memory},
       "cpu": ${var.ecs_cpu},
@@ -67,7 +66,7 @@ resource "aws_ecs_service" "service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.tg.arn
     container_name   = var.application
-    container_port   = 3000
+    container_port   = var.container_port
   }
 
   depends_on = [aws_lb.lb]
