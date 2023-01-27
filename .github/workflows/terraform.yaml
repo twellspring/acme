@@ -58,9 +58,6 @@ jobs:
         if: "${{ inputs.apply != 'true' }}"
         run: terraform plan -no-color -var-file=${{env.tf_config}}
 
-      - name: Test Secret
-        run: echo "${{ secrets.TF_VAR_TLS_CHAIN }}"
-
       - name: Terraform Apply
         if: "${{ inputs.apply == 'true'}}"
         run: terraform apply -auto-approve -no-color -var-file=${{env.tf_config}}

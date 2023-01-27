@@ -12,14 +12,15 @@ resource "aws_lb_target_group" "tg" {
   protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
   target_type = "ip"
-  # health_check {
-  #   interval            = 30
-  #   port                = var.container_port
-  #   path                = "/"
-  #   protocol            = "HTTP"
-  #   timeout             = 28
-  #   unhealthy_threshold = 10
-  # }
+  health_check {
+    enabled             = false
+    interval            = 30
+    port                = var.container_port
+    path                = "/"
+    protocol            = "HTTP"
+    timeout             = 28
+    unhealthy_threshold = 10
+  }
   lifecycle {
     create_before_destroy = true
   }

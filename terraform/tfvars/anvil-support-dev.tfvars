@@ -1,4 +1,4 @@
 application    = "anvil-support"
 aws_region     = "us-west-2"
-container_port = 5000
+container_port = 8080
 environment    = "dev"
