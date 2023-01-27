@@ -54,6 +54,9 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -check
 
+      - name: Terraform validate
+        run: terraform validate
+
       - name: Terraform Plan
         if: "${{ inputs.apply != 'true' }}"
         run: terraform plan -no-color -var-file=${{env.tf_config}}
