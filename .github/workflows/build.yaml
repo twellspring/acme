@@ -48,7 +48,7 @@ jobs:
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
-          trivyignores: ".trivyignore"
+          trivyignores: "./.trivyignore"
 
       - name: Push image to ECR
         run: |
