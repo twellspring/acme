@@ -4,7 +4,7 @@ resource "aws_kms_key" "key" {
 }
 
 resource "aws_cloudwatch_log_group" "lg" {
-  name = var.application
+  name = local.prefix
 }
 
 resource "aws_ecs_cluster" "cluster" {
@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "definition" {
     {
       "name": "${var.application}",
       "image": "${aws_ecr_repository.repo.repository_url}:latest",
-      "memory":${var.ecs_memory},
+      "memory": ${var.ecs_memory},
       "cpu": ${var.ecs_cpu},
       "networkMode": "awsvpc",
       "portMappings": [
@@ -44,6 +44,14 @@ resource "aws_ecs_task_definition" "definition" {
           "hostPort": ${var.container_port}
         }
       ],
+      "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+              "awslogs-group": "${aws_cloudwatch_log_group.lg.name}",
+              "awslogs-region": "${var.aws_region}",
+              "awslogs-stream-prefix": "${var.application}"
+          }
+      },
       "environment": []
     }
   ]

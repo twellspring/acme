@@ -12,15 +12,6 @@ resource "aws_lb_target_group" "tg" {
   protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
   target_type = "ip"
-  health_check {
-    enabled             = false
-    interval            = 30
-    port                = var.container_port
-    path                = "/"
-    protocol            = "HTTP"
-    timeout             = 28
-    unhealthy_threshold = 10
-  }
   lifecycle {
     create_before_destroy = true
   }
@@ -46,7 +37,7 @@ resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.lb.arn
   port              = "443"
   protocol          = "HTTPS"
-  certificate_arn   = aws_acm_certificate.cert.arn
+  certificate_arn   = data.aws_acm_certificate.issued.arn
 
   default_action {
     target_group_arn = aws_lb_target_group.tg.arn
@@ -54,13 +45,18 @@ resource "aws_lb_listener" "https" {
   }
 }
 
-resource "aws_acm_certificate" "cert" {
-  private_key       = var.tls_key
-  certificate_body  = var.tls_certificate
-  certificate_chain = var.tls_chain
-  lifecycle {
-    ignore_changes = [
-      options["certificate_transparency_logging_preference "]
-    ]
-  }
+# resource "aws_acm_certificate" "cert" {
+#   private_key       = var.tls_key
+#   certificate_body  = var.tls_certificate
+#   certificate_chain = var.tls_chain
+#   lifecycle {
+#     ignore_changes = [
+#       options["certificate_transparency_logging_preference "]
+#     ]
+#   }
+# }
+
+data "aws_acm_certificate" "issued" {
+  domain   = "wells.ws"
+  statuses = ["ISSUED"]
 }
