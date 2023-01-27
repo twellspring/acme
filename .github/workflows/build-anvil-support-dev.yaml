@@ -9,10 +9,6 @@ on:
       - Dockerfile
   workflow_dispatch:
 
-env:
-  application: anvil-support
-  environment: dev
-
 jobs:
   build:
     name: Build
@@ -20,11 +16,5 @@ jobs:
     with:
       application: anvil-support
       aws_region: us-west-2
+      environment: dev
     secrets: inherit
-
-  deploy:
-    name: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: force ecr deployment
-        run: aws ecs update-service --cluster anvil-support-dev --service anvil-support-dev --force-new-deployment

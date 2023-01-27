@@ -9,6 +9,10 @@ on:
         description: "AWS Region"
         type: string
         required: true
+      environment:
+        description: "Application Environment"
+        type: string
+        required: true
 
 jobs:
   build:
@@ -38,3 +42,6 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: force ECS deployment
+        run: aws ecs update-service --cluster ${{ inputs.application}}-${{ inputs.environment}} --service ${{ inputs.application}}-${{ inputs.environment}} --force-new-deployment
