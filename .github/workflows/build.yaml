@@ -40,6 +40,7 @@ jobs:
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
+        continue-on-error: true
         with:
           image-ref: "${{ steps.login-ecr.outputs.registry }}/${{ inputs.application}}:latest"
           format: "table"
@@ -47,7 +48,6 @@ jobs:
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
-        continue-on-error: true
 
       - name: Push image to ECR
         run: |
