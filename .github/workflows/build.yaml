@@ -52,7 +52,11 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         #continue-on-error: true
-        # dummy
+        with:
+          image-ref: "${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ inputs.application }}:${{ jobs.build.outputs.version || 'testing' }}
+          format: table
+          exit-code: "1"
+          ignore-unfixed: true
 
       - name: Push image to ECR
         if: ${{ inputs.push == 'true'}}
