@@ -7,6 +7,13 @@ on:
     paths:
       - src/**
       - Dockerfile
+
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
   workflow_dispatch:
 
 jobs:
@@ -17,4 +24,5 @@ jobs:
       application: anvil-support
       aws_region: us-west-2
       environment: dev
+      push: ${{ github.event_name != 'pull_request' || true }}
     secrets: inherit
