@@ -26,6 +26,8 @@ jobs:
                       semantic-release
       - name: Create release
         id: semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npx semantic-release -e ./.github/.releaserc.json
           echo ::set-output name=version::$(cat version.txt)
