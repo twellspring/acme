@@ -34,6 +34,10 @@ jobs:
     needs: [release]
 
     steps:
+      - name: test
+        run: |
+          echo "VERSION: ${{ needs.release.outputs.version }}"
+
       - name: Check out code
         uses: actions/checkout@v2
 
@@ -65,10 +69,10 @@ jobs:
           trivyignores: "./.trivyignore"
 
       - name: Push image to ECR
-        if: ${{ inputs.push == 'true'}}
+        if: ${{ inputs.push == true}}
         run: |
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ needs.release.outputs.version || 'testing' }}
 
       - name: force ECS deployment
-        if: ${{ inputs.push == 'true' }}
+        if: ${{ inputs.push == true }}
         run: aws ecs update-service --cluster ${{ inputs.application }}-${{ inputs.environment }} --service ${{ inputs.application }}-${{ inputs.environment }} --force-new-deployment
