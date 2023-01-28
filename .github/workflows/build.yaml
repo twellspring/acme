@@ -23,7 +23,7 @@ on:
 jobs:
   release:
     name: Release
-    if: ${{ inputs.push == 'true'}}
+    if: ${{ inputs.push == true }}
     uses: ./.github/workflows/release.yaml
 
   build:
