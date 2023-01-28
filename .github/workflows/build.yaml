@@ -25,6 +25,7 @@ jobs:
     name: Release
     if: ${{ inputs.push == true }}
     uses: ./.github/workflows/release.yaml
+    secrets: inherit
 
   build:
     name: Build Image
