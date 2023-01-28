@@ -52,6 +52,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         #continue-on-error: true
+        # dummy
 
       - name: Push image to ECR
         if: ${{ inputs.push == 'true'}}
