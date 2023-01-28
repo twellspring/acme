@@ -28,7 +28,9 @@ jobs:
 
   build:
     name: Build Image
+    if: always()
     runs-on: ubuntu-latest
+    needs: release
 
     steps:
       - name: Check out code
@@ -47,13 +49,13 @@ jobs:
 
       - name: Build Image
         run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ jobs.build.outputs.version || 'testing' }}
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ needs.release.outputs.version || 'testing' }} .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
-        #continue-on-error: true
+        # continue-on-error: true
         with:
-          image-ref: "${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ inputs.application }}:${{ jobs.build.outputs.version || 'testing' }}"
+          image-ref: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ needs.release.outputs.version || 'testing' }}
           format: table
           exit-code: "1"
           ignore-unfixed: true
@@ -64,7 +66,7 @@ jobs:
       - name: Push image to ECR
         if: ${{ inputs.push == 'true'}}
         run: |
-          docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ jobs.build.outputs.version || 'testing' }}
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ needs.release.outputs.version || 'testing' }}
 
       - name: force ECS deployment
         if: ${{ inputs.push == 'true' }}
