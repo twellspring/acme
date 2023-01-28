@@ -66,8 +66,8 @@ jobs:
       - name: Push image to ECR
         if: ${{ inputs.push == true}}
         run: |
-          docker tag image:testing  ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ env.REF }} }}
-          docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ env.REF }} }}
+          docker tag image:testing  ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ env.REF }}
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ env.REF }}
 
       - name: force ECS deployment
         if: ${{ inputs.push == true }}
