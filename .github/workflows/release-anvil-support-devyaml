@@ -6,6 +6,6 @@ on:
       - main
 
 jobs:
-  build:
+  release:
     name: release
     uses: ./.github/workflows/release.yaml
