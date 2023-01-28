@@ -34,7 +34,7 @@ resource "aws_ecs_task_definition" "definition" {
   [
     {
       "name": "${var.application}",
-      "image": "${aws_ecr_repository.repo.repository_url}:latest",
+      "image": "${aws_ecr_repository.repo.repository_url}:v1",
       "memory": ${var.ecs_memory},
       "cpu": ${var.ecs_cpu},
       "networkMode": "awsvpc",
