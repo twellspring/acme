@@ -21,11 +21,6 @@ on:
         required: false
         default: false
 
-env:
-  application: anvil-support
-  environment: dev
-  dummy: ${{ github.event_name }}
-
 jobs:
   terraform:
     name: Terraform
@@ -34,5 +29,5 @@ jobs:
       application: anvil-support
       apply: ${{ inputs.deploy || github.event_name != 'pull_request' }}
       aws_region: us-west-2
-      environment: dev
+      environment: ${{ github.event_name }}
     secrets: inherit
