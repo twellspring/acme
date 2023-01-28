@@ -30,4 +30,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npx semantic-release -e ./.github/.releaserc.json
-          echo ::set-output name=version::$(cat version.txt)
+          echo "Version: $(cat version.txt)
+          echo "version=$(cat version.txt)" >> $GITHUB_OUTPUT
