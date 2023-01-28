@@ -19,6 +19,10 @@ on:
         description: Push docker image to ECR
         type: boolean
         required: true
+      release:
+        description: Release to build
+        type: string
+        required: false
 
 env:
   REF: ${{ inputs.release || github.event.pull_request.head.ref || github.ref_name }}
