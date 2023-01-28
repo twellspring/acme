@@ -35,6 +35,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          ref: ${{ env.REF }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
