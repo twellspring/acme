@@ -34,7 +34,7 @@ jobs:
     needs: [release]
 
     steps:
-      - run: echo "VERSION: ${{ needs.release.outputs.version }}""
+      - run: echo "VERSION: ${{ needs.release.outputs.version }}"
 
       - name: Check out code
         uses: actions/checkout@v2
