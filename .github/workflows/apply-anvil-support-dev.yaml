@@ -24,6 +24,7 @@ on:
 env:
   application: anvil-support
   environment: dev
+  dummy: ${{ github.event_name }}
 
 jobs:
   terraform:
