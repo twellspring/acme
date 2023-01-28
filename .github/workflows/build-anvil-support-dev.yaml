@@ -26,5 +26,5 @@ jobs:
       aws_region: us-west-2
       environment: dev
       push: ${{ github.event_name != 'pull_request' && true || false }}
-      release: ${{ input.release }}
+      release: ${{ inputs.release }}
     secrets: inherit
