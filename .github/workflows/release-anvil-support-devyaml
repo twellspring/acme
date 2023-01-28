@@ -1,11 +1,12 @@
-name: build-anvil-support-dev
+name: release-anvil-support-dev
 
 on:
   push:
     branches:
       - main
     paths:
-      - terraform/**
+      - src/**
+      - Dockerfile
 
 jobs:
   build:
