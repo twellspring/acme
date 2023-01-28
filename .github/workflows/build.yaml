@@ -19,14 +19,15 @@ on:
         description: Push docker image to ECR
         type: boolean
         required: true
+      release:
+        description: Release name
+        type: string
+        required: true
+
+env:
+  REF: ${{ inputs.release || github.event.pull_request.head.ref || github.ref_name }}
 
 jobs:
-  release:
-    name: Release
-    if: ${{ inputs.push == true }}
-    uses: ./.github/workflows/release.yaml
-    secrets: inherit
-
   build:
     name: Build Image
     if: always()
@@ -34,10 +35,6 @@ jobs:
     needs: [release]
 
     steps:
-      - name: test
-        run: |
-          echo "VERSION: ${{ needs.release.outputs.version }}"
-
       - name: Check out code
         uses: actions/checkout@v2
 
@@ -54,13 +51,13 @@ jobs:
 
       - name: Build Image
         run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ needs.release.outputs.version || 'testing' }} .
+          docker build -t image:testing .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         # continue-on-error: true
         with:
-          image-ref: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ needs.release.outputs.version || 'testing' }}
+          image-ref: image:testing
           format: table
           exit-code: "1"
           ignore-unfixed: true
@@ -71,7 +68,8 @@ jobs:
       - name: Push image to ECR
         if: ${{ inputs.push == true}}
         run: |
-          docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ needs.release.outputs.version || 'testing' }}
+          docker tag image:testing  ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ env.REF }} }}
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ env.REF }} }}
 
       - name: force ECS deployment
         if: ${{ inputs.push == true }}

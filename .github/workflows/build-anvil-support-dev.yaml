@@ -1,12 +1,8 @@
 name: build-anvil-support-dev
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - src/**
-      - Dockerfile
+  release:
+    types: [published]
 
   pull_request:
     types:

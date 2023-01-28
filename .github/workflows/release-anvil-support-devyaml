@@ -1,0 +1,13 @@
+name: build-anvil-support-dev
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - terraform/**
+
+jobs:
+  build:
+    name: release
+    uses: ./.github/workflows/release.yaml
