@@ -4,26 +4,26 @@ on:
   workflow_call:
     inputs:
       application:
-        description: "Application Name"
+        description: Application Name
         type: string
         required: true
       aws_region:
-        description: "AWS Region"
+        description: AWS Region
         type: string
         required: true
       environment:
-        description: "Application Environment"
+        description: Application Environment
         type: string
         required: true
       push:
-        description: "Push docker image to ECR"
+        description: Push docker image to ECR
         type: boolean
         required: true
 
 jobs:
   release:
     name: Release
-    if: "${{ inputs.push == 'true'}}"
+    if: ${{ inputs.push == 'true'}}
     uses: ./.github/workflows/release.yaml
 
   build:
@@ -47,14 +47,14 @@ jobs:
 
       - name: Build Image
         run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:latest
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ jobs.build.outputs.version || 'testing' }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         #continue-on-error: true
         with:
           image-ref: "${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ inputs.application }}:${{ jobs.build.outputs.version || 'testing' }}
-          format: "table"
+          format: table
           exit-code: "1"
           ignore-unfixed: true
           vuln-type: "os,library"
@@ -62,10 +62,10 @@ jobs:
           trivyignores: "./.trivyignore"
 
       - name: Push image to ECR
-        if: "${{ inputs.push == 'true'}}"
+        if: ${{ inputs.push == 'true'}}
         run: |
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${{ jobs.build.outputs.version || 'testing' }}
 
       - name: force ECS deployment
-        if: "${{ inputs.push == 'true' }}"
+        if: ${{ inputs.push == 'true' }}
         run: aws ecs update-service --cluster ${{ inputs.application }}-${{ inputs.environment }} --service ${{ inputs.application }}-${{ inputs.environment }} --force-new-deployment

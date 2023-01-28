@@ -4,30 +4,30 @@ on:
   workflow_call:
     inputs:
       application:
-        description: "Application Name"
+        description: Application Name
         type: string
         required: true
       apply:
-        description: "Run Terraform apply"
+        description: Run Terraform apply
         type: string
         required: false
         default: "false"
       aws_region:
-        description: "AWS Region"
+        description: AWS Region
         type: string
         required: true
       environment:
-        description: "Application Environment"
+        description: Application Environment
         type: string
         required: true
 
 env:
-  backend_config: "tfvars/${{inputs.application}}-${{inputs.environment}}-backend.tfvars"
-  tf_config: "tfvars/${{inputs.application}}-${{inputs.environment}}.tfvars"
+  backend_config: tfvars/${{inputs.application}}-${{inputs.environment}}-backend.tfvars
+  tf_config: tfvars/${{inputs.application}}-${{inputs.environment}}.tfvars
 
 jobs:
   terraform:
-    name: "Terraform"
+    name: Terraform
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -58,11 +58,11 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        if: "${{ inputs.apply != 'true' }}"
+        if: ${{ inputs.apply != 'true' }}
         run: terraform plan -no-color -var-file=${{ env.tf_config }}
 
       - name: Terraform Apply
-        if: "${{ inputs.apply == 'true' }}"
+        if: ${{ inputs.apply == 'true' }}
         run: terraform apply -auto-approve -no-color -var-file=${{ env.tf_config }}
         env:
           TF_VAR_tls_certificate: ${{ secrets.TF_VAR_TLS_CERTIFICATE }}
