@@ -30,6 +30,12 @@ variable "environment" {
   description = "Environment name"
 }
 
+variable "release" {
+  type        = string
+  description = "Release version/prefix"
+  default     = "v1"
+}
+
 variable "tls_certificate" {
   type        = string
   description = "TLS certificate"
