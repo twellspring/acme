@@ -1,5 +1,13 @@
 # Acme Corporation POC
-A Cloud Migration POC for Acme Company.
+A Cloud Migration POC for Acme Company. This will create a sample application inside of ECS. 
+
+## What Get's Created
+- An S3 bucket and Dynamo DB table to hold Terraform state
+- AWS VPC (subnets, routing tables, internet gateway, NAT gateway)
+- ECS Deployment (task definition, cluster, service, tasks)
+- Load Balancer (load balancer, target groups, elastic IPs)
+- Security Groups needed to provide access from the internet and between components
+- IAM Roles needed to allow ECS to pull images from ECR and to create tasks
 
 ## Requirements
 - Terraform >= 1.3
@@ -71,3 +79,4 @@ cd cloudformation
 ```
 - Delete the repository secrets
 - Disable/Delete the Access Key (IAM / Users / your username / Security Credentials )
+- Delete the DNS name
