@@ -69,7 +69,7 @@ jobs:
         if: ${{ inputs.push == true}}
         run: |
           docker tag image:testing  ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}-${{ inputs.environment }}:$REF
-          docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:$REF
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}-${{ inputs.environment }}:$REF
           docker tag image:testing  ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}-${{ inputs.environment }}:${REF/.*/}
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}-${{ inputs.environment }}:${REF/.*/}
 
