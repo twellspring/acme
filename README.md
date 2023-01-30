@@ -1,11 +1,12 @@
 # Acme Corporation POC
-A Cloud Migration POC for Acme Company. This will create a sample application inside of ECS. 
+A Cloud Migration POC for Acme Company. This will create a sample anvil support portal application inside of ECS with a publicly accessible URL. 
 
 ## What Get's Created
 - An S3 bucket and Dynamo DB table to hold Terraform state
 - AWS VPC (subnets, routing tables, internet gateway, NAT gateway)
 - ECS Deployment (task definition, cluster, service, tasks)
 - Load Balancer (load balancer, target groups, elastic IPs)
+- Docker image of the Python sample app, uploaded to ECR
 - Security Groups needed to provide access from the internet and between components
 - IAM Roles needed to allow ECS to pull images from ECR and to create tasks
 
@@ -25,7 +26,7 @@ A Cloud Migration POC for Acme Company. This will create a sample application in
 - Create Infrastructure needed to save Terraform state 
   ```
   cd cloudformation
-  ./manage_state create-stack dev
+  ./manage_state.sh create-stack dev
   ```
 
 ### GITHUB
@@ -42,7 +43,7 @@ A Cloud Migration POC for Acme Company. This will create a sample application in
 
 ### Update tfvars files
 - Create a copy of anvil-support-dev-backend.tfvars
--   Update the region and key
+  - Update the region and key
 - Create a copy of anvil-support-dev.tfvars
     - Update the region and environment
 
@@ -52,8 +53,8 @@ A Cloud Migration POC for Acme Company. This will create a sample application in
 
 ### Update Build Pipeline
 - Create a copy of build-anvil-support-dev.yaml
-- Update the region and environment
-- In the build job with section set `push: false` and add `force_ecs: true`
+  - Update the region and environment
+  - In the build job with section set `push: false` and add `force_ecs: true`
 
 ### PR and DNS
 - Create a PR with all the above changes and merge to main
@@ -75,7 +76,7 @@ terraform destroy -var-file=tfvars/anvil-support-dev.tfvars
 - Destroy the Cloudformation resources
 ```
 cd cloudformation
-./manage_state delete-stack dev
+./manage_state.sh delete-stack dev
 ```
 - Delete the repository secrets
 - Disable/Delete the Access Key (IAM / Users / your username / Security Credentials )
