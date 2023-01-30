@@ -43,22 +43,31 @@ A Cloud Migration POC for Acme Company. This will create a publicly accessible a
 
 ### Update tfvars files
 - Create a copy of anvil-support-dev-backend.tfvars
-  - Update the region and key
+  - Update the environment value in the key
 - Create a copy of anvil-support-dev.tfvars
-    - Update the region and environment
+    - Update the environment
 
 ### Update Terraform Pipeline
 - Create a copy of terraform-anvil-support-dev.yaml
-    - Update the region and environment
+    - Update the environment value in the name
+    - In the job with section, update the environment
 
 ### Update Build Pipeline
 - Create a copy of build-anvil-support-dev.yaml
-  - Update the region and environment
+  - Update name
+  - In the job with section, update the environment
+
 
 ### PR and DNS
 - Create a PR with all the above changes and merge to main
 - Once the new environment is created, Find the load balancer's dns name via AWS console or `aws elb describe-load-balancers`
 - In your DNS hosting provider, create a CNAME pointing to the load balancer dns name
+
+### Trigger Build
+Since the new environment also has a new ECR (shortcoming of demo), there is no image for this new ECS to pull down from its repo. 
+- In Github Actions, Choose the newly created build job
+- Run Workflow
+  - Specify the latest release
 
 ## Making Code Changes
 - Update the code, commit/PR/merge
