@@ -74,14 +74,20 @@ Since the new environment also has a new ECR (shortcoming of demo), there is no 
 - Be sure to use [Semantic Versioning Prefixes](https://semver.org/) in your PR. If not, the release pipeline will fail
 
 
-## Teardown
-- In AWS ECR delete all images in the `anvil-support` repo
+## Destroy an existing environment
+For each environment created:
+- In AWS ECR delete all images in the `anvil-support-<env>` repo
 - Run the terraform destroy locally
 ```
 cd terraform 
-terraform init --backend-config=tfvars/anvil-support-dev-backend.tfvars 
-terraform destroy -var-file=tfvars/anvil-support-dev.tfvars
+terraform init --backend-config=tfvars/anvil-support-<env>-backend.tfvars --reconfigure
+terraform destroy --var-file=tfvars/anvil-support-<env>.tfvars
 ```
+- Delete the environment tfvars files and terraform/build pipelines
+- Commit, PR, merge
+
+## Teardown
+- destroy all environments per above
 - Destroy the Cloudformation resources
 ```
 cd cloudformation
