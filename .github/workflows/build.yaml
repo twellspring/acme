@@ -15,11 +15,6 @@ on:
         description: Application Environment
         type: string
         required: true
-      force_ecs:
-        description: Force ECS to redeploy
-        type: boolean
-        required: false
-        default: false
       push:
         description: Push docker image to ECR
         type: boolean
@@ -79,5 +74,5 @@ jobs:
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.application }}:${REF/.*/}
 
       - name: force ECS deployment
-        if: ${{ inputs.push == true || inputs.force_ecs == true }}
+        if: ${{ inputs.push == true }}
         run: aws ecs update-service --cluster ${{ inputs.application }}-${{ inputs.environment }} --service ${{ inputs.application }}-${{ inputs.environment }} --force-new-deployment

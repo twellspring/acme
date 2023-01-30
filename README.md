@@ -1,5 +1,5 @@
 # Acme Corporation POC
-A Cloud Migration POC for Acme Company. This will create a sample anvil support portal application inside of ECS with a publicly accessible URL. 
+A Cloud Migration POC for Acme Company. This will create a publicly accessible anvil support portal example application inside of ECS. 
 
 ## What Get's Created
 - An S3 bucket and Dynamo DB table to hold Terraform state
@@ -54,7 +54,6 @@ A Cloud Migration POC for Acme Company. This will create a sample anvil support 
 ### Update Build Pipeline
 - Create a copy of build-anvil-support-dev.yaml
   - Update the region and environment
-  - In the build job with section set `push: false` and add `force_ecs: true`
 
 ### PR and DNS
 - Create a PR with all the above changes and merge to main
@@ -67,6 +66,7 @@ A Cloud Migration POC for Acme Company. This will create a sample anvil support 
 
 
 ## Teardown
+- In AWS ECR delete all images in the `anvil-support` repo
 - Run the terraform destroy locally
 ```
 cd terraform 
