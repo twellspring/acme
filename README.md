@@ -31,22 +31,26 @@ A Cloud Migration POC for Acme Company.
   - TF_VAR_TLS_CHAIN
 
 ## Creating a new environment
-Make the following changes, then commit/PR/merge into main
 
-### tfvars files
+### Update tfvars files
 - Create a copy of anvil-support-dev-backend.tfvars
 -   Update the region and key
 - Create a copy of anvil-support-dev.tfvars
     - Update the region and environment
 
-### Terraform Pipeline
+### Update Terraform Pipeline
 - Create a copy of terraform-anvil-support-dev.yaml
     - Update the region and environment
 
-### Build Pipeline
+### Update Build Pipeline
 - Create a copy of build-anvil-support-dev.yaml
 - Update the region and environment
 - In the build job with section set `push: false` and add `force_ecs: true`
+
+### PR and DNS
+- Create a PR with all the above changes and merge to main
+- Once the new environment is created, Find the load balancer's dns name via AWS console or `aws elb describe-load-balancers`
+- In your DNS hosting provider, create a CNAME pointing to the load balancer dns name
 
 ## Making Code Changes
 - Update the code, commit/PR/merge
