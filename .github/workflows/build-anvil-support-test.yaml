@@ -1,0 +1,24 @@
+name: build-anvil-support-test
+
+on:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Release to build
+        type: string
+        required: false
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/build.yaml
+    with:
+      application: anvil-support
+      aws_region: us-west-2
+      environment: test
+      push: ${{ github.event_name != 'pull_request' && true || false }}
+      release: ${{ inputs.release }}
+    secrets: inherit

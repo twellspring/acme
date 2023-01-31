@@ -1,0 +1,27 @@
+name: terraform-anvil-support-test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - terraform/**
+
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Run Terraform Apply
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  terraform:
+    name: Terraform
+    uses: ./.github/workflows/terraform.yaml
+    with:
+      application: anvil-support
+      apply: ${{ inputs.deploy || github.event_name != 'pull_request' && true || false }}
+      aws_region: us-west-2
+      environment: test
+    secrets: inherit
